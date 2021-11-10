@@ -65,7 +65,7 @@ namespace Books.Controllers
                 await _context.SaveChangesAsync();
                 ViewBag.Title = "Book added";
                 ViewBag.Message = "Book successfuly added";
-                return View("Success");
+                return View("Success"); 
 
             }
             ViewData["AuthorId"] = new SelectList(_context.Set<Author>(), "AuthorId", "Name", book.AuthorId);
@@ -119,7 +119,9 @@ namespace Books.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                ViewBag.Title = "Book edited";
+                ViewBag.Message = "Book successfuly edited";
+                return View("Success");
             }
             ViewData["AuthorId"] = new SelectList(_context.Set<Author>(), "AuthorId", "Name", book.AuthorId);
             return View(book);
@@ -152,7 +154,9 @@ namespace Books.Controllers
             var book = await _context.Book.FindAsync(id);
             _context.Book.Remove(book);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            ViewBag.Title = "Book deleted";
+            ViewBag.Message = "Book successfuly deleted";
+            return View("Success");
         }
 
         private bool BookExists(int id)
