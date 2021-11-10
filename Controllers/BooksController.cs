@@ -36,7 +36,7 @@ namespace Books.Controllers
 
             var book = await _context.Book
                 .Include(b => b.Author)
-                .FirstOrDefaultAsync(m => m.BookId == id);
+                .SingleOrDefaultAsync(m => m.BookId == id);
             if (book == null)
             {
                 return NotFound();
