@@ -1,4 +1,4 @@
-using Books.Data;
+﻿using Books.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -35,6 +35,9 @@ namespace Books
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddControllersWithViews();
+
+            services.AddDbContext<BooksContext>(options =>
+                    options.UseSqlServer(Configuration.GetConnectionString("BooksContext")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
