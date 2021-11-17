@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Books.Data;
 using Books.Models;
+using Books.ViewModels;
 
 namespace Books.Controllers
 {
@@ -22,8 +23,25 @@ namespace Books.Controllers
         // GET: Books
         public async Task<IActionResult> Index()
         {
-            var booksContext = _context.Book.Include(b => b.Author);
-            return View(await booksContext.ToListAsync());
+            var pagingInfo = new PagingInfo
+            {
+                CurrentPage = 1,
+                TotalItems = _context.Book.Count()
+            };
+
+            var books = await _context.Book
+                .Include(b => b.Author)
+                .Skip((pagingInfo.CurrentPage -1) * pagingInfo.PageSize)
+                .Take(pagingInfo.PageSize)
+                .ToListAsync();
+            
+            return View(
+                new BookListViewModel
+                {
+                    Books = books,
+                    PagingInfo= pagingInfo
+                }
+                );
         }
 
         // GET: Books/Details/5

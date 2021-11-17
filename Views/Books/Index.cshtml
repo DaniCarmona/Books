@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Books.Models.Book>
+﻿@model BookListViewModel
 
 @{
     ViewData["Title"] = "Index";
@@ -10,7 +10,7 @@
     <a asp-action="Create" class="btn btn-dark">Create New </a>
 </p>
 
-@foreach (var book in Model)
+@foreach (var book in Model.Books)
 {
 <div class="card">
     <div class="card-body">
