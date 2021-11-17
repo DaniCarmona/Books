@@ -13,6 +13,7 @@ namespace Books.Models
         [Required]
         [StringLength(100)]
         public string Name { get; set; }
-        
+
+        public ICollection<BookCategory> CategoryBooks { get; set; }
     }
 }

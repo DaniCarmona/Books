@@ -19,5 +19,7 @@ namespace Books.Models
         [DisplayName("Author")]
         public int AuthorId { get; set; }
         public Author Author { get; set; }
+
+        public ICollection<BookCategory> BookCategories { get; set; }
     }
 }
