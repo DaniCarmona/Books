@@ -30,9 +30,14 @@
         @{
             for (int p = 1; p <= Model.PagingInfo.TotalPages; p++)
             {
+                if(p== Model.PagingInfo.CurrentPage) {
+                    <li class="page-item active">
+                        <a class="page-link" href="#">2 <span class="sr-only">(current)</span></a>
+                    </li>
+                }
                 <li class="page-item"><a class="page-link" asp-action="Index" asp-route-page="@p">@p</a></li>
             }
-        }      
-        <li class="page-item"><a class="page-link" asp-action="Index" asp-route-page="@Model.PagingInfo.PageSize">Last</a></li>
+        }
+        <li class="page-item"><a class="page-link" asp-action="Index" asp-route-page="@Model.PagingInfo.TotalPages">Last</a></li>
     </ul>
 </nav>
