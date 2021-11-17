@@ -21,7 +21,7 @@ namespace Books.Controllers
         }
 
         // GET: Books
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int page = 1)
         {
             var pagingInfo = new PagingInfo
             {
@@ -31,6 +31,7 @@ namespace Books.Controllers
 
             var books = await _context.Book
                 .Include(b => b.Author)
+                .OrderBy(b => b.Title)
                 .Skip((pagingInfo.CurrentPage -1) * pagingInfo.PageSize)
                 .Take(pagingInfo.PageSize)
                 .ToListAsync();
