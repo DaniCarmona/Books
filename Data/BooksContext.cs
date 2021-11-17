@@ -40,5 +40,7 @@ namespace Books.Data
         public DbSet<Books.Models.Author> Author { get; set; }
 
         public DbSet<Books.Models.Category> Category { get; set; }
+
+        public DbSet<Books.Models.BookCategory> BookCategory { get; set; }
     }
 }
