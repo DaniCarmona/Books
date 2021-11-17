@@ -29,6 +29,16 @@ namespace Books.Controllers
                 TotalItems = _context.Book.Count()
             };
 
+            if (pagingInfo.CurrentPage > pagingInfo.TotalPages)
+            {
+                pagingInfo.CurrentPage = pagingInfo.TotalPages;
+            }
+
+            if (pagingInfo.CurrentPage < 1)
+            {
+                pagingInfo.CurrentPage = 1;
+            }
+ 
             var books = await _context.Book
                 .Include(b => b.Author)
                 .OrderBy(b => b.Title)
