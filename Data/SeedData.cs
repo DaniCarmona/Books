@@ -13,6 +13,9 @@ namespace Books.Data
     {
         private const string ADMIN_EMAIL = "admin@ipg.pt";
         private const string ADMIN_PASSWORD = "Secret123$";
+        private const string ROLE_ADMIN = "admin";
+        private const string ROLE_PRODUCT_MANAGER = "product_manager";
+        private const string ROLE_COSTUMER = "costumer";
 
         internal static void Populate(BooksContext booksContext)
         {
@@ -64,6 +67,19 @@ namespace Books.Data
 
         internal static void PopulateUsers(UserManager<IdentityUser> userManager)
         {
+        }
+        internal static void CreateRoles(RoleManager<IdentityUser> roleManager)
+        {
+            EnsureRoleIsCreatedAsync(roleManager, ROLE_ADMIN).Wait();
+            EnsureRoleIsCreatedAsync(roleManager, ROLE_PRODUCT_MANAGER).Wait();
+            EnsureRoleIsCreatedAsync(roleManager, ROLE_COSTUMER).Wait();
+        }
+
+        private static async Task EnsureRoleIsCreatedAsync (RoleManager<IdentityUser> roleManager, string role)
+        {
+            if (await roleManager.RoleExistsAsync(role)) return;
+
+            await roleManager.CreateAsync(new IdentityRole(role));
         }
     }
 }

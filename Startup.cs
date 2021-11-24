@@ -94,7 +94,8 @@ namespace Books
                 SeedData.Populate(booksContext);
                 SeedData.PopulateUsers(userManager);
             }
-            
+
+            SeedData.CreateRoles(roleManager);
             SeedData.CreateDefaultAdmin(userManager);
         }
     }
