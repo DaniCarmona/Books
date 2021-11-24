@@ -21,8 +21,10 @@ namespace Books.Controllers
         }
 
         // GET: Books
-        public async Task<IActionResult> Index(int page = 1)
+        public async Task<IActionResult> Index(string title, int page = 1)
         {
+            var bookSearch = _context.Book.Where(b => title == null || b.Title.Contains(title));
+
             var pagingInfo = new PagingInfo
             {
                 CurrentPage = 1,
@@ -39,7 +41,7 @@ namespace Books.Controllers
                 pagingInfo.CurrentPage = 1;
             }
  
-            var books = await _context.Book
+            var books = await bookSearch
                 .Include(b => b.Author)
                 .OrderBy(b => b.Title)
                 .Skip((pagingInfo.CurrentPage -1) * pagingInfo.PageSize)
@@ -50,7 +52,8 @@ namespace Books.Controllers
                 new BookListViewModel
                 {
                     Books = books,
-                    PagingInfo= pagingInfo
+                    PagingInfo= pagingInfo,
+                    TitleSearched = title
                 }
                 );
         }
