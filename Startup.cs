@@ -32,8 +32,25 @@ namespace Books
                     Configuration.GetConnectionString("DefaultConnection")));
             services.AddDatabaseDeveloperPageExceptionFilter();
 
-            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+            services.AddIdentity<IdentityUser, IdentityRole>(options => {
+                //Sign in
+                options.SignIn.RequireConfirmedAccount = false;
+                options.SignIn.RequireConfirmedPhoneNumber = false;
+                options.SignIn.RequireConfirmedEmail = false;
+
+                //Password
+                options.Password.RequireUppercase = true;
+                options.Password.RequireLowercase = true;
+                options.Password.RequireDigit = true;
+                options.Password.RequiredUniqueChars = 4;
+                options.Password.RequiredLength = 8;
+                options.Password.RequireNonAlphanumeric = true;
+
+                //User
+                options.User.RequireUniqueEmail = true;
+            })
                 .AddEntityFrameworkStores<ApplicationDbContext>();
+
             services.AddControllersWithViews();
 
             services.AddDbContext<BooksContext>(options =>
