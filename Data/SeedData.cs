@@ -47,26 +47,33 @@ namespace Books.Data
 
         internal static void CreateDefaultAdmin(UserManager<IdentityUser> userManager)
         {
-            EnsureUserIsCreatedAsync(userManager, ADMIN_EMAIL, ADMIN_PASSWORD).Wait();
+            EnsureUserIsCreatedAsync(userManager, ADMIN_EMAIL, ADMIN_PASSWORD, ROLE_ADMIN).Wait();
         }
 
         private static async Task EnsureUserIsCreatedAsync(UserManager<IdentityUser> userManager, string email, string password)
         {
             var user = await userManager.FindByNameAsync(email);
 
-            if (user != null) return;
-
-            user = new IdentityUser
+            if (user == null)
             {
-                UserName = email,
-                Email = email
-            };
 
-            await userManager.CreateAsync(user, password);
+                user = new IdentityUser
+                {
+                    UserName = email,
+                    Email = email
+                };
+
+                await userManager.CreateAsync(user, password);
+            }
+
+            if (await userManager.IsInRoleAsync(user, role)) return;
+            await userManager.AddToRoleAsync(user, role);
         }
 
         internal static void PopulateUsers(UserManager<IdentityUser> userManager)
         {
+            EnsureUserIsCreatedAsync(userManager, "john@ipg.pt", ROLE_COSTUMER).Wait();
+            EnsureUserIsCreatedAsync(userManager, "mary@ipg.pt", ROLE_PRODUCT_MANAGER).Wait();
         }
         internal static void CreateRoles(RoleManager<IdentityUser> roleManager)
         {
