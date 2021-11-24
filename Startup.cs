@@ -48,6 +48,9 @@ namespace Books
 
                 //User
                 options.User.RequireUniqueEmail = true;
+
+                //Lockout
+                options.Lockout.AllowedForNewUsers = true;
             })
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
@@ -58,7 +61,7 @@ namespace Books
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, BooksContext booksContext)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, BooksContext booksContext, UserManager<IdentityUser> userManager)
         {
             if (env.IsDevelopment())
             {
@@ -87,7 +90,12 @@ namespace Books
                 endpoints.MapRazorPages();
             });
 
-            SeedData.Populate(booksContext);
+            if (env.IsDevelopment()) {
+                SeedData.Populate(booksContext);
+                SeedData.PopulateUsers(userManager);
+            }
+            
+            SeedData.CreateDefaultAdmin(userManager);
         }
     }
 }
