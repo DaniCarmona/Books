@@ -6,10 +6,11 @@
 
 <h1>Books</h1>
 
+@if (User.IsInRole("product_manager")) { 
 <p>
     <a asp-action="Create" class="btn btn-dark">Create New </a>
 </p>
-
+}
 <div class="card">
     <div class="card-body">
         <h5 class="card-title">Search</h5>

@@ -199,6 +199,20 @@ namespace Books.Controllers
             return View("Success");
         }
 
+        [Authorize(Roles = "costumer")]
+        public string Buy(int id)
+        {
+            var username= User.Identity.Name;
+
+            //_context.Costumer.SingleOrDefault(b => b.Email == username);
+
+            //if (costumer == null) return NotFound();
+
+            // ...
+
+            return "The option to buy will be added soon";
+        }
+
         private bool BookExists(int id)
         {
             return _context.Book.Any(e => e.BookId == id);
